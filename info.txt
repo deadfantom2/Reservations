@@ -1,0 +1,6 @@
+
+
+
+
+
+mongod --dbpath D:\data\db
