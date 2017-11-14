@@ -24,8 +24,8 @@ var app = express();
 
 // Declaration Models
 var User     = require('./models/user');
-
-
+var Logement = require('./models/logement');
+var Chat     = require('./models/chat');
 
 app.use(function(request, response, next) {
     response.header("Access-Control-Allow-Origin", "*");
@@ -46,8 +46,8 @@ app.use(cors());
 
 /*------------Declaration Routes Avec Path definit une fois-------------------*/
 app.use('/',   require('./routes/userRoutes'));
-
-
+app.use('/',   require('./routes/logementRoutes'));
+app.use('/',   require('./routes/chatRoutes'));
 
 
 /* *************************************************Chat************************************************************* */
@@ -63,4 +63,22 @@ var server = app.listen(3000, function(){
     console.log('Server started on port 3000');
 });
 
+// socket setup
+var io =  socket(server); // setup on notre serveur 3000
+
+//Test socket
+io.on('connection', function (socket) {
+    socket.on('disconnect', function(){
+        io.emit('users-changed', {user: socket.nickname, event: 'left'});
+    });
+
+    socket.on('set-nickname', function (nickname) {
+        socket.nickname = nickname;
+        io.emit('users-changed', {user: nickname, event: 'joined'});
+    });
+
+    socket.on('add-message', function (message) {
+        io.emit('message', {text: message.text, from: socket.nickname, created: new Date()});
+    });
+});
 
