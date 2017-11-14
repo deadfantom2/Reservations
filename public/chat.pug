@@ -1,0 +1,19 @@
+doctype html
+html
+    head
+        title Knowledgebase
+        link(rel="stylesheet" href="/style.css")
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js')
+    body
+
+    form(method='POST',action='/chat')
+        #chat
+            h2 Chat
+            #chat-window
+                #output
+                #feedback
+            input#handle(type='hidden', name='name')
+            input#message(type='text', name='message', placeholder='Message')
+            button#send Send
+
+        script(src='/chat.js')
