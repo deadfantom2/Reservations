@@ -68,6 +68,7 @@ router.post('/add', passport.authenticate('jwt', { session: false }), function(r
                     res.status(500).send({ success: false, message: "Impossible d'ajouter la reservation"});
                 }
                 else{
+                    //Envoie d'un mail de confirmation à l'utilisateur
                     sendConfirmationMail(req.user.email);
                     res.status(201).send({ success: true, "Preview URL (Mail Ethereal)":"Dans la console" });
                 }

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
 
-/* Envoi de Mail */
+/* Envoi de Mail (Simulation via Ethereal)*/
 router.post('/send', function(req, res, next) {
   
     var to = req.query.to;

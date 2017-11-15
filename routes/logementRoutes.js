@@ -10,6 +10,7 @@ var User        = require('../models/user');        // import data models user
 
 
 // Recherche multi-critère (type - country - city)
+// Si aucun paramètre n'est ajouté, la recherche renvoie toutes les annonces
 router.get('/search', passport.authenticate('jwt', { session: false }), function(req, res) {
 
     logemQuery = {};
