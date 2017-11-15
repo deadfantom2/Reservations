@@ -48,6 +48,8 @@ app.use(cors());
 app.use('/',   require('./routes/userRoutes'));
 app.use('/',   require('./routes/logementRoutes'));
 app.use('/',   require('./routes/chatRoutes'));
+app.use('/booking',   require('./routes/reservationRoutes'));
+app.use('/mail',   require('./routes/mailRoutes'));
 
 
 /* *************************************************Chat************************************************************* */

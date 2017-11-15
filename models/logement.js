@@ -10,11 +10,7 @@ var logementSchema = mongoose.Schema({
   country:     { type: String, required: true },
   city:        { type: String, required: true },
   address:     { type: String, required: true },
-  description: { type: String, required: true },
-  reservation: {
-        checkInDate: { type: String, required: true },
-        checkOutDate: { type: String, required: true }
-    }
+  description: { type: String, required: true }
 });
 
 

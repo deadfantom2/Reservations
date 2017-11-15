@@ -9,28 +9,37 @@ var User        = require('../models/user');        // import data models user
 
 
 
-// Filtre
-router.get('/filtre', passport.authenticate('jwt', { session: false }), function(req, res) {
+// Recherche multi-critère (type - country - city)
+router.get('/search', passport.authenticate('jwt', { session: false }), function(req, res) {
 
-    Logement.find({}, function(err, logement){
+    logemQuery = {};
+
+    var type = req.query.type;
+    var country = req.query.country;
+    var city = req.query.city;
+
+    if(type){logemQuery.annonceId = type;}
+    if(country){logemQuery.country = country ;}
+    if(city){logemQuery.city = city;}
+
+    Logement.find(logemQuery, function(err, logement){
         if(err){
             res.status(500).json(err);
         }else{
             res.status(200).json(logement);
         }
-    }).sort({"reservation.checkInDate": 1});              // --- 1 for asc and -1 for desc
+    });
 
 });
 
 
-
-// Afficher la page des logements
+// Renvoie les logements de l'utilisateur connecté
 router.get('/logements', passport.authenticate('jwt', { session: false }), function(req, res) {
-    Logement.find({userId : req.user.id}, function(err, logement){
+    Logement.find({userId : req.user.id}, function(err, logements){
         if(err){
             res.status(500).send(err);
         }else{
-            res.status(200).send(logement);
+            res.status(200).send(logements);
         }
     });
 
@@ -49,8 +58,6 @@ router.post('/logement', passport.authenticate('jwt', { session: false }), funct
         logement.city = req.body.city;
         logement.address = req.body.address;
         logement.description = req.body.description;
-        logement.reservation.checkInDate = req.body.checkInDate;
-        logement.reservation.checkOutDate = req.body.checkOutDate;
 
 
         logement.save(function(err) {
@@ -90,7 +97,7 @@ router.put('/logement/:id', passport.authenticate('jwt', { session: false }), fu
 
 // Supprimer le logement
 router.delete('/logement/:id', passport.authenticate('jwt', { session: false }), function(req, res) {
-    Logement.findByIdAndRemove({_id: req.params.id}).then(function (logement) {  // supprime user selon son id
+    Logement.findByIdAndRemove({_id: req.params.id}).then(function (logement) {  // supprime selon son id
         res.send(logement);
     });
 });

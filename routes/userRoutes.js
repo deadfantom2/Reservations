@@ -31,7 +31,7 @@ router.post('/register', function(req, res) {
         newUser.save(function(err) {
             if (err) {
                 console.log("err" + JSON.stringify(err));
-                res.status(400).send({ success: false, message: 'Email already exists'});
+                res.status(400).send({ success: false, message: 'Email already exists or value are not correct'});
             }
             else{
                 console.log("no err");
@@ -47,6 +47,7 @@ router.post('/register', function(req, res) {
 router.get('/login', function (req, res) {
     res.render('./login');
 });
+
 // Route pour s'authentifier
 router.post('/login', function(req, res) {
     User.findOne({ email: req.body.email }, function(err, user) {
